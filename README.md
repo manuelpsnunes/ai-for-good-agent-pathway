@@ -1,34 +1,43 @@
-## Workshop Template
+## AI for Good Hackathon: Low-Code to Pro-Code Agents
 
-Welcome to the Next Generation Team's design template for [building workshops](presentation.pptx), a system designed to help Microsoft Student Ambassadors and their partners to create and deliver excellent technical workshops.
+Build meaningful, agentic solutions in 2 hours. This workshop helps hackathon teams move from **Copilot Studio** foundations to **Azure AI Foundry** experimentation and finally into **pro-code multi-agent orchestration** patterns.
 
-## Types of Workshops
+## 2-Hour Roadmap
 
-In this template you will find two types of workshops that you can build:
+| Segment | Focus | Time | Workshop Share |
+|---|---|---:|---:|
+| 01-Copilot-Studio | First agent, **Generative Answers**, **Topic** logic, **Human Handoff** | 60 min | **50%** |
+| 02-Azure-AI-Foundry | Model Catalog (Phi-4, Llama), Playground system prompts, Copilot Studio connection | 42 min | **35%** |
+| 03-Agent-Framework | Multi-agent orchestration overview and GroupChat code glimpse | 18 min | **15%** |
+| Total | Time-to-Impact sprint | 120 min | **100%** |
 
-* **[Workshops](./workshop/README.md)** - a workshop that is designed to be completed within 30-90 minutes with content derived from [Microsoft Learn](https://learn.microsoft.com).
-* **[Short Workshops](./short-workshop/README.md)** - a workshop that is designed to be completed within 15-30 minutes with content derived from [Microsoft Learn](https://learn.microsoft.com). 
+## 350-Character Description
 
-## Style Guide
+A fast-paced, 2-hour AI for Good hackathon workshop that guides builders from low-code Copilot Studio agents to pro-code Azure AI Foundry and multi-agent orchestration. Teams prototype real social-impact solutions, learn practical patterns, and leave with reusable assets to keep shipping responsible, mission-driven AI beyond the event at scale now.
 
-To present a unified voice, please use [this style guide](https://github.com/jlooper/curriculum-template/wiki/Voice) to shape your writing.
+## Why Agents for Social Good?
 
-## Building a Workshop
+### Faster Response to Real Needs
+Agents help teams translate community challenges into working solutions quickly, so ideas become usable prototypes during the event instead of staying on slides.
 
-- [ ] Decide what kind of workshop you want to design and sync with project lead to work out details.
-- [ ] Discuss your plan with your lead and add it to our DevOps board.
-- [ ] Design your workshop following these steps.
-    - [ ] Fork this template repo to your local machine.
-    - [ ] In the folder of your chosen type of workshop, fill out the [workshop-designer](./workshop/workshop-designer.md) document to design the experience.
-    - [ ] Build slides for the workshop using the appropriate template, depending on which type of workshop you are building. 
-        - For Workshops, use our Particle tool to generate slides. Contact Chris Noring for help.
-        - For Short-form workshops, slides are optional.
-    - [ ] Write instructions for your workshop based on the README.md file in your folder's template. Your README.md work is minimal, and mostly links back to the source Learn module. Make sure to include a Call to Action with an instrumented link leading back to Docs and/or Learn to learn more.
-    - [ ] If your workshop needs to diverge significantly from the Learn module, write out the steps as milestones, adding images and screenshots as needed.
-    - [ ] Give your folder a descriptive name and PR the folder to the Next Generation Team's workshop library using [the library's PR template](https://github.com/microsoft/workshop-library)
-- [ ] Trainers: Contact Chris Noring to present your workshop to Microsoft Student Ambassadors to generate a Train the Trainer video for inclusion in the library.
-- [ ] Ambassadors: present workshops to your communities sourced from [the workshop library](https://github.com/microsoft/workshop-library). You can edit and use a [copy of this poster](https://www.canva.com/design/DAEuDXXR9us/share/preview?token=Je0_213uqxmYaXnNYz1v-Q&role=EDITOR&utm_content=DAEuDXXR9us&utm_campaign=designshare&utm_medium=link&utm_source=sharebutton) to publicize it.
+### Better Human + AI Collaboration
+With **handoff**, **guardrails**, and **grounded responses**, teams design systems where people stay in control while AI accelerates impact.
 
-## Slides about this project
+### Reusable Architecture Beyond the Hackathon
+Participants leave with a progression path from low-code to pro-code, making it easier to productionize responsible solutions after the workshop.
 
-- [Explanatory slide deck](https://github.com/microsoft/workshop-template/blob/main/presentation.pptx?raw=true)
+## Repository Map
+
+- `00-Setup/`: Tenant, licensing, and readiness checklist.
+- `01-Copilot-Studio/`: Core low-code build lab (50% of workshop).
+- `02-Azure-AI-Foundry/`: Model and prompt experimentation lab (35% of workshop).
+- `03-Agent-Framework/`: Pro-code architecture glimpse with Python sample (15% of workshop).
+- `use-cases/`: AI for Good idea bank to kick-start team concepts.
+
+## Workshop Outcome
+
+By the end, each team has:
+
+- A functioning first agent.
+- A tested model/prompt strategy in Foundry.
+- A clear next step toward multi-agent pro-code architecture.
