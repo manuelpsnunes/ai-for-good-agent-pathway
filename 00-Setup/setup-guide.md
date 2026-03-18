@@ -2,46 +2,63 @@
 
 Get everyone ready fast so the hackathon can focus on building impact, not troubleshooting access.
 
-### Provisioning Checklist
+### Participant Account Requirement (Read First) 🔐
 
-- Confirm each participant has access to a Microsoft 365 tenant where **Copilot Studio** is enabled.
-- Confirm each participant has access to an Azure subscription for **Azure AI Foundry** activities.
-- Create a shared Teams channel for announcements, links, and troubleshooting.
-- Assign one technical owner per team to validate setup before the workshop starts.
+Each participant must receive a **work or school account** in the sandbox tenant before the workshop.
 
-### Microsoft 365 Requirements
+- Personal email accounts are not supported for Copilot Studio trial sign-up in this workshop flow.
+- The same sandbox identity should be used for both Copilot Studio and Azure sign-in where possible.
 
-- Microsoft 365 tenant with Copilot Studio enabled.
-- Required permissions to create and edit agents.
-- Access to Dataverse environment (if your scenario uses connectors or data tables).
+### Provisioning Checklist ✅
 
-### Azure Requirements
+- Sandbox user accounts for all participants in the workshop tenant.
+- Each participant can sign in with their assigned **work or school account**.
+- Each participant has access to a Microsoft 365 tenant where **Copilot Studio** is enabled.
+- Each participant has access to an Azure subscription for **Azure AI Foundry** activities.
+
+### Step-by-Step: Copilot Studio Free Trial 🤖
+
+1. Go to https://copilotstudio.microsoft.com/.
+2. Enter your assigned sandbox **work or school account** email and select **Next**.
+3. Complete the prompted verification and profile steps.
+4. After sign-up completes, open **Copilot Studio** and confirm the trial is active.
+
+<img src="image.png" alt="Copilot Studio trial sign-up screen" width="75%" />
+
+Important notes ⚠️:
+
+- The trial allows creating agents and testing in the test chat panel.
+- Publishing is not available on the basic trial flow.
+- If prompted that sign-up cannot be completed, your tenant may have self-service sign-up disabled. Contact the tenant admin to enable it.
+
+### Step-by-Step: Azure $200 Free Account (30 Days) ☁️
+
+Reference: https://azure.microsoft.com/en-us/pricing/purchase-options/azure-account
+
+1. Go to https://azure.microsoft.com/en-us/pricing/purchase-options/azure-account and choose **Try Azure for free**.
+2. Sign in with your assigned sandbox **work or school account**.
+3. Complete identity verification steps (phone and payment method may be requested by Azure for validation).
+4. Confirm your free account is provisioned with **$200 credit for 30 days**.
+5. Sign in to the Azure portal and verify you can access subscription details.
+6. Open Azure AI Foundry and confirm you can create or join a project.
+
+<img src="image-1.png" alt="Azure free account sign-up screen" width="75%" />
+
+Important notes ⚠️:
+
+- Azure Free is available to new Azure customers.
+- Spending protection is available during the free account period.
+- If your organization policy blocks sign-up, ask the tenant/subscription admin to pre-provision access.
+
+### Azure Requirements 🧩
 
 - Active Azure subscription.
 - Permission to create or use an Azure AI Foundry project.
 - Access to model playground features and model catalog browsing.
 
-### Suggested Licensing Baseline
+### Suggested Licensing Baseline 📋
 
 - Copilot Studio license (trial or paid) for each builder.
-- Azure subscription with sufficient quota for model testing.
+- Azure subscription with sufficient quota for model testing (**East US 2** and **Sweden Central** are the go-to options for best availability).
 - Optional: Power Platform admin access for environment troubleshooting.
 
-### Pre-Flight Validation (10 Minutes)
-
-1. Sign in to Copilot Studio and verify you can create an agent.
-2. Sign in to Azure portal and open Azure AI Foundry.
-3. Confirm your team can open shared reference URLs for grounding.
-4. Verify your browser allows pop-ups for sign-in and handoff windows.
-
-### Facilitator Prep
-
-- Prepare one backup account with preconfigured access.
-- Keep sample URLs ready for grounding exercises.
-- Keep one known-good fallback scenario in case team ideas are too broad.
-
-### Troubleshooting Fast Track
-
-- If Copilot Studio access fails: verify license assignment and environment access.
-- If Foundry access fails: verify subscription role and region availability.
-- If model access fails: switch to an available model in catalog and continue.
