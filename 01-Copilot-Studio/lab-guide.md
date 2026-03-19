@@ -7,11 +7,11 @@ This is the main build segment for the FoodLink demo. Keep momentum high and opt
 In this lab, you'll implement the **agentic orchestration and logistics layer** of FoodLink.
 
 - In Microsoft Copilot Studio scope here: 
-  - **Orchestrator**: Parent agent whose only task is to coordinate the child agents.
+  - **FoodLink Agentic AI (Orchestrator)**: Parent agent whose only task is to coordinate the child agents.
   - **Donor Assistant**: Handles food donation requests.
   - **Volunteer Dispatcher**: Matches food donation to available volunteer for pick-up.
-  - **Meal Preparation**: Takes raw food items and creates balanced meal plans ready for distribution.
-- Out of scope here: **Vision Guard (Azure AI Foundry)**, which is implemented in [02-Azure-AI-Foundry/lab-guide.md](../02-Azure-AI-Foundry/lab-guide.md).
+  - **Meal Organizer**: Takes raw food items and creates balanced meal plans ready for distribution.
+- **Vision Guard (Azure AI Foundry)**, which is implemented in [02-Azure-AI-Foundry/lab-guide.md](../02-Azure-AI-Foundry/lab-guide.md).
 
 ### Lab Goals
 
@@ -23,23 +23,84 @@ In this lab, you'll implement the **agentic orchestration and logistics layer** 
 - Learn how to test and validate complex multi-agent flows quickly, including success and fallback paths.
 
 
-### 1. Data Infrastructure (Excel-as-Database for Demo Purposes)
+### 1. Data Infrastructure
 
-For the *AI for Good Hackathon* workshop, we're using Excel tables.
+For the *AI for Good Hackathon* workshop, use Dataverse as the operational data layer so Copilot Studio tools can run reliable lookups, updates, and approval tracking.
 
-- `DonationHistory`: donor name, locations, historical donation patterns (portions/items), last donation, notes.
-![alt text](image.png)
-- `VolunteerRegistry`: volunteer availability, email, transport mode, and assigned home hub.
-![alt text](image-1.png)
-- `HubDirectory`: hub locations, storage capacity, current load.
-![alt text](image-2.png)
+#### Core Tables
 
-For production-ready architecture, consider moving to managed data services:
-- **Dataverse** when deep Power Platform integration and governance are priorities. Best suited for Copilot Studio integration.
-- **Azure SQL Database** for operational relational workloads.
-- **Microsoft Fabric OneLake + Warehouse/Lakehouse** for analytics and unified data estate.
+**Donors**
 
+- Purpose: Partner profile and intake defaults.
+- Key fields: DonorId, DonorName, Location, PreferredWindow, Notes.
 
+**Donations**
+
+- Purpose: Every donation event captured by Donor Assistant.
+- Key fields: DonationId, Donor (lookup), Item, Quantity, PickupDate, Status.
+
+**Hubs**
+
+- Purpose: Capacity and load balancing decisions for dispatch.
+- Key fields: HubId, HubName, Address, StorageCapacityPortions, CurrentLoad, OpenUntil.
+- Calculated field: LoadPerc = CurrentLoad / StorageCapacityPortions.
+
+**Volunteers**
+
+- Purpose: Dispatcher candidate pool.
+- Key fields: VolunteerId, VolunteerName, EmailAddress, TransportMode, AvailabilityStatus, HomeHub (lookup).
+
+#### Entity-Relationship diagram
+
+```mermaid
+erDiagram
+    DONORS ||--o{ DONATIONS : "initiates"
+    HUB_DIRECTORY ||--o{ VOLUNTEERS : "base of operations"
+    
+    DONORS {
+        guid crc34_donorsid PK
+        string DonorName
+        string Location
+        string PreferredWindow
+        string Notes
+    }
+
+    DONATIONS {
+        guid crc34_donationsid PK
+        string DonationID
+        string Item
+        datetime PickupDate
+        int Quantity
+        lookup Donor FK
+    }
+
+    HUB_DIRECTORY {
+        guid crc34_hubdirectoryid PK
+        string HubName
+        string Address
+        int StorageCapacity_Portions
+        int CurrentLoad
+        float LoadPerc
+        datetime OpenUntil
+    }
+
+    VOLUNTEERS {
+        guid crc34_volunteersid PK
+        string VolunteerName
+        string EmailAddress
+        string TransportMode
+        string AvailabilityStatus
+        lookup HubDirectory FK
+    }
+```
+
+For production-ready architecture:
+
+- **Dataverse** for Power Platform-native integration, security, and governance.
+- **Azure SQL Database** for transactional relational workloads at scale.
+- **Microsoft Fabric OneLake + Warehouse/Lakehouse** for analytics and reporting.
+
+For rapid prototyping, it is also possible to use Excel connector-based tools, but Dataverse is preferred for reliability in orchestrated flows.
 
 
 ### 2. Agent Architecture (Copilot Studio)
