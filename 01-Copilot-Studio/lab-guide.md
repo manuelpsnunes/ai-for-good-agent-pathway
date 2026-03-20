@@ -13,7 +13,9 @@ In this lab, you'll implement the **agentic orchestration and logistics layer** 
   - **Meal Organizer**: Takes raw food items and creates balanced meal plans ready for distribution.
 - **Vision Guard (Azure AI Foundry)**, which is implemented in [02-Azure-AI-Foundry/lab-guide.md](../02-Azure-AI-Foundry/lab-guide.md).
 
-### Lab Goals
+The database used alongisde table description is present in [00-Setup/database.md](../00-Setup/database.md) 
+
+### 🧪 Lab Goals
 
 - Learn how to set up multiple agents in **Microsoft Copilot Studio**, assign each a clear responsibility, and orchestrate them as one end-to-end process.
 - Learn how to design robust **Instructions** for sequential stepping and predictable handoffs between parent and child agents.
@@ -23,132 +25,69 @@ In this lab, you'll implement the **agentic orchestration and logistics layer** 
 - Learn how to test and validate complex multi-agent flows quickly, including success and fallback paths.
 
 
-### 1. Data Infrastructure
+### 🏗️ Agent Architecture
 
-For the *AI for Good Hackathon* workshop, use Dataverse as the operational data layer so Copilot Studio tools can run reliable lookups, updates, and approval tracking.
+We will build an agentic system that is composed of:
+- 1 orchestrator ( FoodLink Agentic AI )
+- 3 child agents (Donor Assistant, Volunteer Dispatcher and Meal Organizer) 
+- 1 connected agent (Visual Auditor)
 
-#### Core Tables
+The **orchestration pattern used will be [handoff orchestration](https://learn.microsoft.com/en-gb/training/modules/orchestrate-semantic-kernel-multi-agent-solution/7-use-handoff-orchestration)**, where execution is passed to a specialist agent when specific conditions are met (for example, selected hub with least amount of load).
 
-**Donors**
+For more patterns, see [AI agent orchestration patterns](https://learn.microsoft.com/en-us/azure/architecture/ai-ml/guide/ai-agent-design-patterns).
 
-- Purpose: Partner profile and intake defaults.
-- Key fields: DonorId, DonorName, Location, PreferredWindow, Notes.
+![Agent architecture](../supportdocs/agenticarchitecture.png)
 
-**Donations**
-
-- Purpose: Every donation event captured by Donor Assistant.
-- Key fields: DonationId, Donor (lookup), Item, Quantity, PickupDate, Status.
-
-**Hubs**
-
-- Purpose: Capacity and load balancing decisions for dispatch.
-- Key fields: HubId, HubName, Address, StorageCapacityPortions, CurrentLoad, OpenUntil.
-- Calculated field: LoadPerc = CurrentLoad / StorageCapacityPortions.
-
-**Volunteers**
-
-- Purpose: Dispatcher candidate pool.
-- Key fields: VolunteerId, VolunteerName, EmailAddress, TransportMode, AvailabilityStatus, HomeHub (lookup).
-
-#### Entity-Relationship diagram
-
-```mermaid
-erDiagram
-    DONORS ||--o{ DONATIONS : "initiates"
-    HUB_DIRECTORY ||--o{ VOLUNTEERS : "base of operations"
-    
-    DONORS {
-        guid crc34_donorsid PK
-        string DonorName
-        string Location
-        string PreferredWindow
-        string Notes
-    }
-
-    DONATIONS {
-        guid crc34_donationsid PK
-        string DonationID
-        string Item
-        datetime PickupDate
-        int Quantity
-        lookup Donor FK
-    }
-
-    HUB_DIRECTORY {
-        guid crc34_hubdirectoryid PK
-        string HubName
-        string Address
-        int StorageCapacity_Portions
-        int CurrentLoad
-        float LoadPerc
-        datetime OpenUntil
-    }
-
-    VOLUNTEERS {
-        guid crc34_volunteersid PK
-        string VolunteerName
-        string EmailAddress
-        string TransportMode
-        string AvailabilityStatus
-        lookup HubDirectory FK
-    }
-```
-
-For production-ready architecture:
-
-- **Dataverse** for Power Platform-native integration, security, and governance.
-- **Azure SQL Database** for transactional relational workloads at scale.
-- **Microsoft Fabric OneLake + Warehouse/Lakehouse** for analytics and reporting.
-
-For rapid prototyping, it is also possible to use Excel connector-based tools, but Dataverse is preferred for reliability in orchestrated flows.
-
-
-### 2. Agent Architecture (Copilot Studio)
-
-#### Orchestrator Agent (Parent)
+#### Agent Description
 
 The central coordinator that triages partner requests, routes to subflows, and ensures food rescue continuity.
 
 #### Agent 1: Donor Assistant (MCS)
 
-- Status: **Functional (Complete)**
-- Role: entry point for collection intake.
-- Logic:
-1. Identify donor by name lookup.
-2. Retrieve historical impact stats.
-3. Log current surplus item and quantity.
-4. Trigger Hub/Dispatcher path for logistics.
-
-[Insert Screenshot of Donor Assistant topic flow]
-
 #### Agent 2: Volunteer Dispatcher (MCS)
-
-- Status: **Functional (Optimization Phase)**
-- Role: tactical logistics lead.
-- Optimization logic:
-1. Query `HubDirectory` and select the hub with the lowest load ratio.
-2. Query `VolunteerRegistry` for volunteers marked **Available** at that hub.
-3. Select volunteer by `TransportMode` suitability for the requested load.
-4. Trigger **Human-in-the-loop approval** via Teams or Outlook using volunteer email.
-
-[Insert Screenshot of Volunteer Dispatcher branching logic]
 
 #### Agent 3: Beneficiary Matcher (MCS)
 
-- Status: **De-scoped for this 2-hour workshop**.
-- Note: Keep as a future extension once core logistics flow is stable.
 
-### 3. Build Steps in Copilot Studio
+## 🤖 Build Agents in Copilot Studio
 
-### Step 1: Create the Parent FoodLink Agent
+### Agent 1: FoodLink Agent - Orchestrator
 
-1. Open **Copilot Studio** and select **Create**.
-2. Name the agent `FoodLink Orchestrator`.
-3. Add a short mission statement focused on food rescue lifecycle automation.
-4. Add topic entry points for donor intake and volunteer dispatch.
+#### Agent Creation and Instruction Design
+1. Open **Copilot Studio portal** (https://www.copilotstudio.microsoft.com), login with your work or school account and select ``Create an agent``.
+2. Change the icon of the agent. You can use the [image in the supportdocs folder](../supportdocs/logo.png)
+3. Name the agent:
+    ```
+    FoodLink Agentic AI
+    ```
+4. Describe the purpose of this agent and how it can help. Add the following description: 
+    ```
+    The central orchestrator for the FoodLink agentic system. It's only purpose is coordinate and delegates to child agents all execution tasks, such as assisting food donation, volunteer dispatch to pick-up food and meal preparation.
+    ```  
+5. Change the agent's model to `GPT-5 Chat`. This is all-purpose model that is great for most tasks.
 
-[Insert Screenshot of FoodLink Orchestrator initial setup]
+#### Instructions
+6. Now comes a critical step: change the default instructions of the agent to make sure it behaves as an orchestrator. Go to the **Instructions** section and replace the default text with the following:
+    ```
+    You are the lead coordinator for FoodLink. Your goal is to eliminate food waste by connecting surplus to hunger.
+    **Identify** User Persona: Determine if the user is a Donor, Volunteer, or Beneficiary.
+    **Delegate**: Use your sub-agents (Donor Assistant,Volunteer Dispatcher, Meal prep) to handle specialized tasks. Do not try to collect complex logistics data yourself; hand off to the specialized agent.
+    **Tone**: Empathetic, efficient, and community-focused. Use "We" to represent the FoodLink movement.
+    ```
+#### Knowledge
+7. Add knowledge sources to ground the agent's responses in real data. For this lab, we will connect to the Foodlink's website and some documents hosted in Sharepoint. Click on `Add Knowledge` and select: 
+    - `Public Websites` -> FoodLink's public website: https://www.foodlink.org.uk/
+    - `Sharepoint` -> select FoodLink Volunteer Guide: Upload [this file](../supportdocs/FoodLink%20Volunteer%20Handbook.pdf) in Sharepoint
 
+    Once these are ready, the information has been indexed and the agent can use them to answer questions like *What are the volunteer requirements?* or *Where can I donate food?*.
+
+8. Turn Web Search `OFF` - we want the agent to rely on the knowledge sources we've provided, not search the web for answers.
+
+#### Tools
+Since this is the orchestrator agent, we won't add any tools to it. All tools will be added to the child agents, which are the ones executing specific tasks and making decisions based on data lookups and logic.
+
+#### Agent 1 configuration overview
+![alt text](image-3.png)
 ### Step 2: Implement Donor Assistant Topic
 
 1. Create a topic named **Donor Intake**.
