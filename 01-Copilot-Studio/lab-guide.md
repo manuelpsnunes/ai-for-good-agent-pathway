@@ -1,42 +1,24 @@
 ## 01 - Microsoft Copilot Studio Lab Guide
 
-This is the main build segment for the FoodLink demo. Keep momentum high and optimize for a complete, working Copilot Studio orchestration.
+This lab focuses on the Copilot Studio implementation of FoodLink orchestration and child-agent execution.
 
-### 🧭 Project Overview: FoodLink AI Ecosystem (Copilot Studio Scope)
+### Technology intro: Microsoft Copilot Studio
 
-In this lab, you'll implement the **agentic orchestration and logistics layer** of FoodLink.
+**Copilot Studio** is a fully managed platform that helps you build agent experiences quickly. Microsoft handles the hosting and storage for you, and pricing is based on messages. It is a great choice when your team wants fast delivery, built-in orchestration, and easy enterprise integration instead of low-level control over model and runtime settings.
 
-- In the Microsoft Copilot Studio scope:
-  - **FoodLink Agentic AI (Orchestrator)**: Parent agent whose only task is to coordinate the child agents.
-  - **Donor Assistant**: Handles food donation requests.
-  - **Volunteer Dispatcher**: Matches food donation to available volunteer for pick-up.
-  - **Meal Organizer**: Takes raw food items and creates balanced meal plans ready for distribution.
-- **Vision Guard (Azure AI Foundry)**, which is implemented in [02-Azure-AI-Foundry/lab-guide.md](../02-Azure-AI-Foundry/lab-guide.md).
+Planning reference: [Technology solutions and strategy for AI agents](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ai-agents/technology-solutions-plan-strategy)
+
+For shared workshop context (ecosystem overview, goals, and architecture), see [README.md](../README.md).
+
+### Scope in this lab
+
+- Build and configure the **FoodLink Agentic AI** orchestrator.
+- Build and configure **Donor Assistant** and **Volunteer Dispatcher** child agents.
+- Validate handoff behavior, tool usage, and human-in-the-loop flow in Copilot Studio.
+
+The connected Foundry-driven component is covered in [02-Azure-AI-Foundry/lab-guide.md](../02-Azure-AI-Foundry/lab-guide.md).
 
 The database and table descriptions are in [00-Setup/database.md](../00-Setup/database.md).
-
-### 🧪 Lab Goals
-
-- Learn how to set up multiple agents in **Microsoft Copilot Studio**, assign each a clear responsibility, and orchestrate them as one end-to-end process.
-- Learn how to design robust **Instructions** for sequential stepping and predictable handoffs between parent and child agents.
-- Learn how to use **Tools** for deterministic operations (lookups, matching, routing, approvals).
-- Learn how to use **Knowledge** with built-in RAG so agents can answer with grounded, context-aware responses.
-- Learn how to implement **human-in-the-loop** approval paths for high-impact logistics decisions.
-- Learn how to test and validate complex multi-agent flows quickly, including success and fallback paths.
-
-
-### 🏗️ Agent Architecture
-
-We will build an agentic system that is composed of:
-- 1 orchestrator ( FoodLink Agentic AI )
-- 3 child agents (Donor Assistant, Volunteer Dispatcher and Meal Organizer) 
-- 1 connected agent (Visual Auditor)
-
-The **orchestration pattern used will be [handoff orchestration](https://learn.microsoft.com/en-gb/training/modules/orchestrate-semantic-kernel-multi-agent-solution/7-use-handoff-orchestration)**, where execution is passed to a specialist agent when specific conditions are met (for example, selected hub with least amount of load).
-
-For more patterns, see [AI agent orchestration patterns](https://learn.microsoft.com/en-us/azure/architecture/ai-ml/guide/ai-agent-design-patterns).
-
-<img src="../supportdocs/agenticarchitecture.png" alt="Agent architecture" width="75%" />
 
 
 
@@ -47,11 +29,14 @@ Visual key: 🟥 Initial Setup | 🟨 Inputs | 🟦 Tools | 🟪 Instructions | 
 
 These sections appear in all agents to keep the build process consistent: `Initial Setup` defines identity and purpose, `Inputs` defines what data the agent needs, `Tools` defines actions it can execute, `Instructions` defines behavior and decision logic, `Knowledge` defines grounding sources, and `Configuration Overview` is your final validation checkpoint before testing.
 
+
 <details>
 <summary><strong>Agent 1 — 🧠 Orchestrator: FoodLink Agentic AI</strong></summary>
 
-<details>
-<summary>1.1 ↳ 🟥 Initial Setup</summary>
+
+
+#### 🟥 Initial Setup
+
 
 1. Open **Copilot Studio portal** (https://www.copilotstudio.microsoft.com), login with your work or school account and select ``Create an agent``.
 2. Change the icon of the agent. You can use the [image in the supportdocs folder](../supportdocs/logo.png)
@@ -65,10 +50,10 @@ These sections appear in all agents to keep the build process consistent: `Initi
     ```  
 5. Change the agent's model to `GPT-5 Chat`. This is all-purpose model that is great for most tasks.
 
-</details>
 
-<details>
-<summary>1.2 ↳ 🟪 Instructions</summary>
+
+#### 🟪 Instructions
+
 
 6. Now comes a critical step: change the default instructions of the agent to make sure it behaves as an orchestrator. Go to the **Instructions** section and replace the default text with the following:
     ```
@@ -78,10 +63,10 @@ These sections appear in all agents to keep the build process consistent: `Initi
     **Tone**: Empathetic, efficient, and community-focused. Use "We" to represent the FoodLink movement.
     ```
 
-</details>
 
-<details>
-<summary>1.3 ↳ 🟩 Knowledge</summary>
+
+#### 🟩 Knowledge
+
 
 7. Add knowledge sources to ground the agent's responses in real data. For this lab, we will connect to the FoodLink website and some documents hosted in SharePoint. Click on `Add Knowledge` and select:
     - `Public Websites` -> FoodLink's public website: https://foodlink-london.lovable.app
@@ -93,10 +78,10 @@ These sections appear in all agents to keep the build process consistent: `Initi
 
 <span style="color: red;">Note:</span> Keep Web Search `OFF` for this lab. Turning it on can cause ungrounded answers that ignore your configured sources.
 
-</details>
 
-<details>
-<summary>1.4 ↳ 🟦 Tools</summary>
+
+#### 🟦 Tools
+
 Since this is the orchestrator agent, we won't add any tools to it. All tools will be added to the child agents, which are the ones executing specific tasks and making decisions based on data lookups and logic.
 
 Quick tool map by agent:
@@ -106,10 +91,10 @@ Quick tool map by agent:
 
 
 
-</details>
 
-<details>
-<summary>1.5 ↳ 🟧 Configuration overview</summary>
+
+#### 🟧 Configuration overview
+
 
 The agent is configured and is now able to return information grounded in the provided knowledge sources, but not yet able to perform tasks - reserved for the child and connected agents that we'll build next.
 
@@ -128,15 +113,18 @@ The agent should be able to answer this question using the information from the 
 > What are the requirements to become a volunteer?
 > ```
 
-</details>
+
+
 
 </details>
 
 <details>
 <summary><strong>Agent 2 — 🤝 Child Agent: Donor Assistant</strong></summary>
 
-<details>
-<summary>2.1 ↳ 🟥 Initial Setup</summary>
+
+
+#### 🟥 Initial Setup
+
 
 9. On the top ribbon, select `Agents` -> `+ Add an Agent` -> `New child agent`.
 10. Name the agent:
@@ -148,10 +136,10 @@ The agent should be able to answer this question using the information from the 
     You are specialized in onboarding food partners and logging surplus inventory. It handles the Collection phase, documenting food types, quantities, and pickup windows.
     ```
 
-</details>
 
-<details>
-<summary>2.2 ↳ 🟨 Inputs</summary>
+
+#### 🟨 Inputs
+
 
 We'll also add an input to this child agent, to get the necessary information from the user.
 
@@ -167,10 +155,10 @@ We'll also add an input to this child agent, to get the necessary information fr
         ```
         Also `Make this input required`.
 
-    </details>
 
-    <details>
-    <summary>2.3 ↳ 🟦 Tools</summary>
+
+#### 🟦 Tools
+
 
 Tool used in this agent: `SearchDonation`.
 
@@ -200,10 +188,10 @@ Now, we'll add the *SearchDonation* Dataverse tool to this agent that will allow
 
 16. Save the tool.
 
-</details>
 
-<details>
-<summary>2.4 ↳ 🟪 Instructions</summary>
+
+#### 🟪 Instructions
+
 
 17. Add the following instructions to the agent, referencing the tool we just created: 
     ```
@@ -235,17 +223,17 @@ Now, we'll add the *SearchDonation* Dataverse tool to this agent that will allow
     ```
     <span style="color: red;">Note:</span> When referencing the tool output in the instructions, reference it directly by pressing "/" and selecting the tool from the list. 
 
-</details>
 
-<details>
-<summary>2.5 ↳ 🟩 Knowledge</summary>
+
+#### 🟩 Knowledge
+
 
 This child Agent will use the same knowledge sources as the parent agent, so no need to add more here.
 
-</details>
 
-<details>
-<summary>2.6 ↳ 🟧 Configuration overview</summary>
+
+#### 🟧 Configuration overview
+
 
 The Donor Assistant agent is now configured with a clear set of instructions, an input for the donor name, and a tool to lookup donation history. The agent can now assist donors in logging their surplus food donations in a personalized way.
 
@@ -265,15 +253,18 @@ Test the agent using the `Test Pane` and simulate a conversation with a donor.
 > Hi, this is Pizzeria Napoli. I want to donate 10 pizzas.
 > ```
 
-</details>
+
+
 
 </details>
 
 <details>
 <summary><strong>Agent 3 — 🚚 Child Agent: Volunteer Dispatcher</strong></summary>
 
-<details>
-<summary>3.1 ↳ 🟥 Initial Setup</summary>
+
+
+#### 🟥 Initial Setup
+
 
 18. On the Orchestrator agent, add a`New child agent`.
 19. Name the agent:
@@ -290,17 +281,17 @@ Test the agent using the `Test Pane` and simulate a conversation with a donor.
     ```
     This option is what allows the orchestrator to decide when to invoke this child agent based on the description we just added.
 
-</details>
 
-<details>
-<summary>3.2 ↳ 🟨 Inputs</summary>
+
+#### 🟨 Inputs
+
 
 The orchestrator should pass `DonorName` and `DonationQuantity` to this child agent in the handoff context.
 
-</details>
 
-<details>
-<summary>3.3 ↳ 🟦 Tools</summary>
+
+#### 🟦 Tools
+
 
 Tools used in this agent: `SearchAvailableHub`, `SearchAvailableVolunteers`, `Get Volunteer`, and `Volunteer confirmation`.
 
@@ -389,10 +380,10 @@ Now add the following tools before writing instructions, so the instructions can
     - Completion:
         - After running: `Write the response with generative AI`
 
-</details>
 
-<details>
-<summary>3.4 ↳ 🟪 Instructions</summary>
+
+#### 🟪 Instructions
+
 
 30. Add the following instructions to the agent and reference tools directly by pressing `/` and selecting each tool:
     ```
@@ -420,17 +411,17 @@ Now add the following tools before writing instructions, so the instructions can
 
     <span style="color: red;">Note:</span> Keep the `Availability Status` filter exactly as `556280001`, and always end with the exact "Collection Dispatch Plan" format.
 
-</details>
 
-<details>
-<summary>3.5 ↳ 🟩 Knowledge</summary>
+
+#### 🟩 Knowledge
+
 
 No knowledge sources are required for this child agent.
 
-</details>
 
-<details>
-<summary>3.6 ↳ 🟧 Configuration overview</summary>
+
+#### 🟧 Configuration overview
+
 
 The Volunteer Dispatcher agent is now configured to select the most suitable Hub by current load, identify a matching available volunteer at that Hub, request human confirmation, and return the final dispatch plan in a strict response format.
 
@@ -447,7 +438,7 @@ Test the agent using the `Test Pane` with a handoff-style prompt that includes d
 > DonationQuantity: 10
 > ```
 
-</details>
+
 
 </details>
 
