@@ -36,7 +36,33 @@ Before you begin this phase, complete **Step-by-Step: Azure $200 Free Account (3
 
     <img src="../supportdocs/modelleaderboard.png" alt="Microsoft Foundry Agent Model Leadersboard" width="100%" />
 
-3. Filter the catalog for **inference task** equal to **image to text** to check the best models to perform the object detection and count .
+3. Filter the catalog by:
+    - **inference task**: Image Classification
+    - **Collections**: Microsoft
+
+
+    <img src="../supportdocs/foundry-model-catalog.png" alt="Microsoft Foundry Deployed Model" width="100%" />
+
+    Note: We are choosing these filters because we want to find vision models that can be used in the connected agent (Vision Guard) in our architecture. You can explore other filters and find different models that suit your use case.
+
+4. Select the *Phi-4-reasoning-vision-15b* model and review the details about its capabilities, benchmarks, and pricing.
+
+
+    Note: Phi-4 models are not available in Free tier. For learning purposes, you can review the model details and documentation, but you may choose another all-purpose model ( such as gpt-4o or Llama-3) for the next steps that is available in the free tier.
+
+5. Select "Use this model" to deploy it and make it available for testing. Follow the steps until completion.
+
+6. Once the model is deployed, open the background and select the previously deployed model.
+
+    <img src="../supportdocs/foundry-model-playground.png" alt="Microsoft Foundry Playground Model" width="100%" />
+
+    Note: For learning purposes, and to avoid accessibility barriers we chose gpt-4o model which is available in the free tier.
+
+    Note: Like Microsoft Copilot Studio, MS Foundry includes the option to add tools and knowledge bases for RAG scenarios. Additionaly, it includes an option for **Persistent Memory**, which allows the model to remember information across different interactions, and **Guardrails**, which are sets of rules and constraints that can be applied to the model to ensure it behaves in a safe and predictable manner. 
+7. Test the model with a sample prompt and review the output. Upload a sample photo, to make sure it detects objects correctly.
+
+
+
 #### Execution
 
 2. Find a Phi-4 model and review core capabilities.
