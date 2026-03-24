@@ -40,7 +40,7 @@ Reference: https://azure.microsoft.com/en-us/pricing/purchase-options/azure-acco
 3. Complete identity verification steps (phone and payment method may be requested by Azure for validation).
 4. Confirm your free account is provisioned with **$200 credit for 30 days**.
 5. Sign in to the Azure portal and verify you can access subscription details.
-6. Open Azure AI Foundry and confirm you can create or join a project.
+6. Open Azure AI Foundry ( https://ai.azure.com/ ) and confirm you can create or join a project.
 
 <img src="image-1.png" alt="Azure free account sign-up screen" width="75%" />
 
