@@ -1,4 +1,4 @@
-## 01 - Microsoft Copilot Studio Lab Guide
+## 01 - Microsoft Copilot Studio | Lab Guide
 
 This lab focuses on the Copilot Studio implementation of FoodLink orchestration and child-agent execution.
 
@@ -25,12 +25,17 @@ The database and table descriptions are in [00-Setup/database.md](../00-Setup/da
 
 ## 🤖 Build Agents in Copilot Studio
 
-Visual key: 🟥 Initial Setup | 🟨 Inputs | 🟦 Tools | 🟪 Instructions | 🟩 Knowledge | 🟧 Configuration Overview
+Visual key: 🟥 Initial Setup | 🟪 Instructions | 🟩 Knowledge | 🟦 Tools | 🟧 Configuration Overview
 
-These sections appear in all agents to keep the build process consistent: `Initial Setup` defines identity and purpose, `Inputs` defines what data the agent needs, `Tools` defines actions it can execute, `Instructions` defines behavior and decision logic, `Knowledge` defines grounding sources, and `Configuration Overview` is your final validation checkpoint before testing.
+These sections appear in all agents to keep the build process consistent:
+- `Initial Setup`: defines identity and purpose.
+- `Instructions`: defines behavior and decision logic.
+- `Knowledge`: defines grounding sources.
+- `Tools`: defines actions the agent can execute.
+- `Configuration Overview`: final validation checkpoint before testing.
 
 
-<details>
+<details open>
 <summary><strong>Agent 1 — 🧠 Orchestrator: FoodLink Agentic AI</strong></summary>
 
 
@@ -38,7 +43,7 @@ These sections appear in all agents to keep the build process consistent: `Initi
 #### 🟥 Initial Setup
 
 
-1. Open **Copilot Studio portal** (https://www.copilotstudio.microsoft.com), login with your work or school account and select ``Create an agent``.
+1. Open **Copilot Studio portal** (https://www.copilotstudio.microsoft.com), sign in with your work or school account, and select `Create an agent`.
 2. Change the icon of the agent. You can use the [image in the supportdocs folder](../supportdocs/logo.png)
 3. Name the agent:
     ```
@@ -48,7 +53,7 @@ These sections appear in all agents to keep the build process consistent: `Initi
     ```
     The central orchestrator for the FoodLink agentic system. Its only purpose is to coordinate and delegate all execution tasks to child agents, such as assisting food donation, volunteer dispatch for pickup, and meal preparation.
     ```  
-5. Change the agent's model to `GPT-5 Chat`. This is all-purpose model that is great for most tasks.
+5. Change the agent's model to `GPT-5 Chat`. This all-purpose model works well for most tasks.
 
 
 
@@ -58,9 +63,13 @@ These sections appear in all agents to keep the build process consistent: `Initi
 6. Now comes a critical step: change the default instructions of the agent to make sure it behaves as an orchestrator. Go to the **Instructions** section and replace the default text with the following:
     ```
     You are the lead coordinator for FoodLink. Your goal is to eliminate food waste by connecting surplus to hunger.
-    **Identify** User Persona: Determine if the user is a Donor, Volunteer, or Beneficiary.
-    **Delegate**: Use your sub-agents (Donor Assistant,Volunteer Dispatcher, Meal prep) to handle specialized tasks. Do not try to collect complex logistics data yourself; hand off to the specialized agent.
-    **Tone**: Empathetic, efficient, and community-focused. Use "We" to represent the FoodLink movement.
+    Identify User Persona: Determine if the user is a Donor (Partner), Volunteer, or Beneficiary.
+    Delegate: Use your sub-agents (Donor Assistant,Volunteer Dispatcher, Meal prep, Visual-Auditor-Foundry ) to handle specialized tasks. Do not try to collect complex logistics data yourself; hand off to the specialized agent.
+    Sub-agents specifics:
+    . Donor Assistant to identify the donor and the items to donate;
+    . Volunteer Dispatcher to identify a destination Hub that has the most space available, then identify an "Available" volunteer from who is already stationed at that specific Hub, and get the details for pick-up confirmation.
+    . Visual-Auditor-Foundry to confirm food items and quantity by the volunteer, nothing else.
+    Tone: Empathetic, efficient, and community-focused. Use "We" to represent the FoodLink movement.
     ```
 
 
@@ -68,7 +77,7 @@ These sections appear in all agents to keep the build process consistent: `Initi
 #### 🟩 Knowledge
 
 
-7. Add knowledge sources to ground the agent's responses in real data. For this lab, we will connect to the FoodLink website and some documents hosted in SharePoint. Click on `Add Knowledge` and select:
+7. Add knowledge sources to ground the agent's responses in real data. For this lab, connect to the FoodLink website and documents hosted in SharePoint. Click `Add Knowledge` and select:
     - `Public Websites` -> FoodLink's public website: https://foodlink-london.lovable.app
     - `SharePoint` -> select FoodLink Volunteer Guide: Upload [this file](../supportdocs/FoodLink%20Volunteer%20Handbook.pdf) in SharePoint
 
@@ -76,7 +85,7 @@ These sections appear in all agents to keep the build process consistent: `Initi
 
 8. Turn Web Search `OFF` - we want the agent to rely on the knowledge sources we've provided, not search the web for answers.
 
-<span style="color: red;">Note:</span> Keep Web Search `OFF` for this lab. Turning it on can cause ungrounded answers that ignore your configured sources.
+> Note: Keep Web Search `OFF` for this lab. Turning it on can cause ungrounded answers that ignore your configured sources.
 
 
 
@@ -84,25 +93,21 @@ These sections appear in all agents to keep the build process consistent: `Initi
 
 Since this is the orchestrator agent, we won't add any tools to it. All tools will be added to the child agents, which are the ones executing specific tasks and making decisions based on data lookups and logic.
 
-Quick tool map by agent:
-- `FoodLink Agentic AI (Orchestrator)`: no tools.
-- `Donor Assistant`: `SearchDonation`.
-- `Volunteer Dispatcher`: `SearchAvailableHub`, `SearchAvailableVolunteers`, `Get Volunteer`, `Volunteer confirmation`.
-
-
-
-
 
 #### 🟧 Configuration overview
 
 
 The agent is configured and is now able to return information grounded in the provided knowledge sources, but not yet able to perform tasks - reserved for the child and connected agents that we'll build next.
 
+<img src="../supportdocs/orchestrator.png" alt="Microsoft Foundry Integration" width="100%" />
+
+> Note: The tools on this image are added automatically once they are added to the child agents. You shouldn't be able to see those before configuring the child agents.
+
 Test the agent using the `Test Pane` ( *Test* option on the top right corner) and ask it a question related to the knowledge you provided, for example: 
 ```
 What are the requirements to become a volunteer? 
 ```
-The agent should be able to answer this question using the information from the Sharepoint document and the website.
+The agent should be able to answer this question using information from the SharePoint document and website.
 
 > ✅ Checkpoint: Orchestrator Ready
 > - Instructions replaced with orchestration-only behavior.
@@ -118,7 +123,7 @@ The agent should be able to answer this question using the information from the 
 
 </details>
 
-<details>
+<details open>
 <summary><strong>Agent 2 — 🤝 Child Agent: Donor Assistant</strong></summary>
 
 
@@ -136,11 +141,6 @@ The agent should be able to answer this question using the information from the 
     You are specialized in onboarding food partners and logging surplus inventory. It handles the Collection phase, documenting food types, quantities, and pickup windows.
     ```
 
-
-
-#### 🟨 Inputs
-
-
 We'll also add an input to this child agent, to get the necessary information from the user.
 
 12. In the `Inputs` section select `+ Add Input` and add the following inputs:
@@ -154,41 +154,6 @@ We'll also add an input to this child agent, to get the necessary information fr
         Name of the donor or organization providing the surplus food.
         ```
         Also `Make this input required`.
-
-
-
-#### 🟦 Tools
-
-
-Tool used in this agent: `SearchDonation`.
-
-Now, we'll add the *SearchDonation* Dataverse tool to this agent that will allow it to perform specific tasks. This will be done before drafting the instructions so that they can be referenced later on.
-
-13. Select `Add Tool` and choose `Microsoft Dataverse` connector -> `List Rows from a Selected Environment` action. This will allow the agent to look up our Donations table. Configure the tool with the following settings.
-    - Name: 
-        ```
-        SearchDonation
-        ```
-    - Description: 
-        ```
-        Use this tool to search the Donations table to see if they've donated in the past. Retrieve their most frequent items, average quantities, and total donation items. If the tool returns empty values, it means the donor is new to the platform and should be welcomed as a first-time partner. This data is used to personalize the intake process, suggest 'usual' donation amounts to save the user time, and recognize their ongoing contribution to the community. Use this tool immediately after a donor identifies themselves to establish context for the collection.
-        ```
-14. Add the following `Inputs` details:
-    - Environment: Fill using `Custom Value` and *select the value corresponding to the environment where the database is hosted*. (This should be the same environment selected in the Dataverse connection when creating the tool)
-    - Table Name: Fill using `Custom Value` and `Donationses`
-    <span style="color: red;">Note:</span> Keep the table name exactly as `Donationses` (as provisioned in this environment), even if it looks unusual.
-    - Add a custom input. Select `+ Add input` and select `Expand Query`: Fill using `Custom Value` and type:
-        ```
-        crc34_Donor($select=crc34_donorname)
-        ```
-        - This will allow the agent to retrieve the name of the donor related to each donation record, which is necessary for the lookup to work.
-
-15. Confirm the input section of this tool looks like this:
-        <img src="../supportdocs/image-4.png" alt="SearchDonation tool input section" width="75%" />
-
-16. Save the tool.
-
-
 
 #### 🟪 Instructions
 
@@ -221,21 +186,52 @@ Now, we'll add the *SearchDonation* Dataverse tool to this agent that will allow
 
     A volunteer is being notified for the collection right now! 🚛
     ```
-    <span style="color: red;">Note:</span> When referencing the tool output in the instructions, reference it directly by pressing "/" and selecting the tool from the list. 
+    > Note: When referencing tool output in instructions, press `/` and select the tool from the list.
 
 
 
 #### 🟩 Knowledge
 
 
-This child Agent will use the same knowledge sources as the parent agent, so no need to add more here.
+This child agent uses the same knowledge sources as the parent agent, so no additional sources are required here.
 
+
+#### 🟦 Tools
+
+
+Tool used in this agent: `SearchDonation`.
+
+Now, we'll add the *SearchDonation* Dataverse tool to this agent that will allow it to perform specific tasks. This will be done before drafting the instructions so that they can be referenced later on.
+
+13. Select `Add Tool` and choose `Microsoft Dataverse` connector -> `List Rows from a Selected Environment` action. This will allow the agent to look up our Donations table. Configure the tool with the following settings.
+    - Name: 
+        ```
+        SearchDonation
+        ```
+    - Description: 
+        ```
+        Use this tool to search the Donations table to see if they've donated in the past. Retrieve their most frequent items, average quantities, and total donation items. If the tool returns empty values, it means the donor is new to the platform and should be welcomed as a first-time partner. This data is used to personalize the intake process, suggest 'usual' donation amounts to save the user time, and recognize their ongoing contribution to the community. Use this tool immediately after a donor identifies themselves to establish context for the collection.
+        ```
+14. Add the following `Inputs` details:
+    - Environment: Fill using `Custom Value` and *select the value corresponding to the environment where the database is hosted*. (This should be the same environment selected in the Dataverse connection when creating the tool)
+    - Table Name: Fill using `Custom Value` and `Donationses`
+    > Note: Keep the table name exactly as `Donationses` (as provisioned in this environment), even if it looks unusual.
+    - Add a custom input. Select `+ Add input` and select `Expand Query`: Fill using `Custom Value` and type:
+        ```
+        crc34_Donor($select=crc34_donorname)
+        ```
+        - This will allow the agent to retrieve the name of the donor related to each donation record, which is necessary for the lookup to work.
+
+15. Confirm the input section of this tool looks like this:
+        <img src="../supportdocs/image-4.png" alt="SearchDonation tool input section" width="75%" />
+
+16. Save the tool.
 
 
 #### 🟧 Configuration overview
 
 
-The Donor Assistant agent is now configured with a clear set of instructions, an input for the donor name, and a tool to lookup donation history. The agent can now assist donors in logging their surplus food donations in a personalized way.
+The Donor Assistant agent is now configured with clear instructions, a donor-name input, and a tool to look up donation history. It can assist donors in logging surplus food donations in a personalized way.
 
 The configuration setup should look like this:
 <img src="../supportdocs/image-5.png" alt="Donor Assistant configuration overview" width="75%" />
@@ -258,7 +254,7 @@ Test the agent using the `Test Pane` and simulate a conversation with a donor.
 
 </details>
 
-<details>
+<details open>
 <summary><strong>Agent 3 — 🚚 Child Agent: Volunteer Dispatcher</strong></summary>
 
 
@@ -266,7 +262,7 @@ Test the agent using the `Test Pane` and simulate a conversation with a donor.
 #### 🟥 Initial Setup
 
 
-18. On the Orchestrator agent, add a`New child agent`.
+18. On the Orchestrator agent, add a `New child agent`.
 19. Name the agent:
     ```
     Volunteer Dispatcher
@@ -281,17 +277,42 @@ Test the agent using the `Test Pane` and simulate a conversation with a donor.
     ```
     This option is what allows the orchestrator to decide when to invoke this child agent based on the description we just added.
 
-
-
-#### 🟨 Inputs
-
-
 The orchestrator should pass `DonorName` and `DonationQuantity` to this child agent in the handoff context.
 
+#### 🟪 Instructions
+
+30. Add the following instructions to the agent and reference tools directly by pressing `/` and selecting each tool:
+    ```
+    Role: You are the Logistics Lead for FoodLink London. Your mission is to select Hub with lowest load (step 2), get the details of the volunteer that meets the availability and hub criteria (step 3) and confirm if the volunteer is available (step 4).
+    Core Objective: Identify a destination Hub that has the most space available, then identify an "Available" volunteer from who is already stationed at that specific Hub, and get the details for pick-up confirmation.
+
+    Follow the Step-by-Step Logic sequentially (Chain of Thought). Don't skip any steps:
+    1. Analyze the Donation: Receive the `DonorName` and `DonationQuantity` passed to you from the FoodLink Agentic AI (parent).
+    2. Find the Optimal Hub: Call the SearchAvailableHub tool. Look for the Hub with the lowest Load Percentage and save the `crc34_hubdirectoryid`. This is our target destination.
+    3. Filter the volunteer list and get details:
+    3A: Call the SearchAvailableVolunteers tool. Filter the results to find a volunteer who meets the two criteria: Their `Availability Status` is Available (556280001) and `crc34_hubdirectory` equals `crc34_hubdirectoryid` from step 2 and save the `crc34_VolunteersId`.
+    3B: Use the Get Volunteer tool and filter `crc34_VolunteersId` with the value from step 3A to get the volunteer details, to be used in step 5 input.
+    4. Volunteer Confirmation: To confirm volunteer availability and readiness use Volunteer confirmation tool.
+    5. The Final Trigger: As soon as the tool returns a successful confirmation (Yes/Approved), you MUST immediately output the "Collection Dispatch Plan" below using the data you remembered from step 3.
+
+    ### 🚛 Collection Dispatch Plan 🚛
+    👤 Assigned Volunteer:* [VolunteerName]
+    🚛 Transport:* [TransportMode]
+    📍 Pickup From:* [DonorName]
+    🏢 Drop-off Point:* [HubName]
+
+    Important: always end with the formatted response in point 5. Make sure this message is outputted by the agent.
+    ```
+    > Note: Ensure all tool references in the instructions are inserted by selecting each tool with `/`, so Copilot Studio links them as executable tool calls.
+
+    > Note: Keep the `Availability Status` filter exactly as `556280001`, and always end with the exact "Collection Dispatch Plan" format.
+
+#### 🟩 Knowledge
+
+No knowledge sources are required for this child agent.
 
 
 #### 🟦 Tools
-
 
 Tools used in this agent: `SearchAvailableHub`, `SearchAvailableVolunteers`, `Get Volunteer`, and `Volunteer confirmation`.
 
@@ -305,7 +326,7 @@ Now add the following tools before writing instructions, so the instructions can
         ```
     - Description:
         ```
-        Use this tool to determine the best destination Hub for a food delivery. It analyzes the table to find Hubs with the highest available storage capacity and the lowest Load Percentage - calculated CurrentLoad / StorageCapacity
+        Use this tool to determine the best destination hub for a food delivery. It analyzes the table to find hubs with high available storage capacity and the lowest load percentage, calculated as CurrentLoad / StorageCapacity.
         ```
     - Available to: `Volunteer Dispatcher`
     - Inputs:
@@ -343,7 +364,7 @@ Now add the following tools before writing instructions, so the instructions can
         ```
     - Description:
         ```
-        Get a row details from Volunteers table, use the `crc34_VolunteersId` retrieved from the conversation context as input.
+        Get row details from the Volunteers table using `crc34_VolunteersId` retrieved from the conversation context.
         ```
     - Available to: `Volunteer Dispatcher`
     - Inputs:
@@ -353,7 +374,7 @@ Now add the following tools before writing instructions, so the instructions can
         ```
         Enter the row's globally unique identifier (GUID) from the previous step `crc34_VolunteersId`. Don't ask for it.
         ```
-    <span style="color: red;">Note:</span> The `Row ID` must come from the previous tool result (`crc34_VolunteersId`), not from manual user input.
+    > Note: The `Row ID` must come from the previous tool result (`crc34_VolunteersId`), not from manual user input.
     - Completion:
         - After running: `Send specific response`
         - Message to display:
@@ -380,43 +401,9 @@ Now add the following tools before writing instructions, so the instructions can
     - Completion:
         - After running: `Write the response with generative AI`
 
+    This will allow the agent to send a confirmation request to the volunteer, and use their response to proceed with the workflow. The approver will receive a message like this:
 
-
-#### 🟪 Instructions
-
-
-30. Add the following instructions to the agent and reference tools directly by pressing `/` and selecting each tool:
-    ```
-    Role: You are the Logistics Lead for FoodLink London. Your mission is to select Hub with lowest load (step 2), get the details of the volunteer that meets the availability and hub criteria (step 3) and confirm if the volunteer is available (step 4).
-    Core Objective: Identify a destination Hub that has the most space available, then identify an "Available" volunteer from who is already stationed at that specific Hub, and get the details for pick-up confirmation.
-
-    Follow the Step-by-Step Logic sequentially (Chain of Thought). Don't skip any steps:
-    1. Analyze the Donation: Receive the `DonorName` and `DonationQuantity` passed to you from the FoodLink Agentic AI (parent).
-    2. Find the Optimal Hub: Call the SearchAvailableHub tool. Look for the Hub with the lowest Load Percentage and save the `crc34_hubdirectoryid`. This is our target destination.
-    3. Filter the volunteer list and get details:
-    3A: Call the SearchAvailableVolunteers tool. Filter the results to find a volunteer who meets the two criteria: Their `Availability Status` is Available (556280001) and `crc34_hubdirectory` equals `crc34_hubdirectoryid` from step 2 and save the `crc34_VolunteersId`.
-    3B: Use the Get Volunteer tool and filter `crc34_VolunteersId` with the value from step 3A to get the volunteer details, to be used in step 5 input.
-    4. Volunteer Confirmation: To confirm volunteer availability and readiness use Volunteer confirmation tool.
-    5. The Final Trigger: As soon as the tool returns a successful confirmation (Yes/Approved), you MUST immediately output the "Collection Dispatch Plan" below using the data you remembered from step 3.
-
-    ### 🚛 Collection Dispatch Plan 🚛
-    👤 Assigned Volunteer:* [VolunteerName]
-    🚛 Transport:* [TransportMode]
-    📍 Pickup From:* [DonorName]
-    🏢 Drop-off Point:* [HubName]
-
-    Important: always end with the formatted response in point 5. Make sure this message is outputted by the agent.
-    ```
-    <span style="color: red;">Note:</span> Ensure all tool references in the instructions are inserted by selecting each tool with `/`, so Copilot Studio links them as executable tool calls.
-
-    <span style="color: red;">Note:</span> Keep the `Availability Status` filter exactly as `556280001`, and always end with the exact "Collection Dispatch Plan" format.
-
-
-
-#### 🟩 Knowledge
-
-
-No knowledge sources are required for this child agent.
+    <img src="../supportdocs/confirmation.png" alt="Example of the confirmation message received by the volunteer" width="75%" />
 
 
 
@@ -424,6 +411,8 @@ No knowledge sources are required for this child agent.
 
 
 The Volunteer Dispatcher agent is now configured to select the most suitable Hub by current load, identify a matching available volunteer at that Hub, request human confirmation, and return the final dispatch plan in a strict response format.
+
+<img src="../supportdocs/volunteerDispatcher.png" alt="Microsoft Foundry Integration" width="100%" />
 
 Test the agent using the `Test Pane` with a handoff-style prompt that includes donor name and quantity.
 
@@ -438,38 +427,19 @@ Test the agent using the `Test Pane` with a handoff-style prompt that includes d
 > DonationQuantity: 10
 > ```
 
+</details>
 
+<details open>
+<summary><strong>Agent 4 — 🚚 Child Agent: Meal Planner</strong></summary>
 
 </details>
 
-======================================================
 
-31. Create a topic named **Donor Intake**.
-32. Add prompts to capture donor name, item type, and quantity.
-33. Add data lookup against `DonationHistory`.
-34. Log the current donation and pass handoff variables to dispatcher flow.
-
-[Insert Screenshot of Donor Intake variables and data lookup]
-
-### 🚚 Step 3: Implement Volunteer Dispatcher Topic
-
-
-
-### ✅ Step 4: Add Human Approval via Power Automate
-
-
-
-### ▶️ 4. Demo Thread (Run This End-to-End)
-
-
-
-### ✅ Validation Checklist
-
-
-
-### 🌟 Stretch Challenge (Optional)
+### Go Pro: 
 
 
 ### 🆘 Stuck? Check the Solution
+
+Open [solution/README.md](../workshop/solution/README.md) to compare your setup with a reference baseline.
 
 

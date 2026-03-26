@@ -1,12 +1,12 @@
-## 02 - Azure AI Foundry Lab Guide
+## 02 - Azure AI Foundry | Lab Guide
 
-Now shift from low-code configuration to model and prompt engineering decisions that improve outcome quality.
+This lab moves from low-code setup into model and prompt engineering decisions that improve output quality.
 
 ### Technology intro: Microsoft Foundry
 
 **Microsoft Foundry** is a middle option between quick, fully managed Copilot experiences and fully custom infrastructure. It gives your team more control over orchestration, model choice, prompt testing, and development workflow (VS Code + GitHub + Foundry portal), while still providing a managed platform experience.
 
-<img src="../supportdocs/foundry-agent-service.png" alt="Microsoft Foundry Agent Service architecture overview" width="75%" />
+<img src="../supportdocs/foundry-agent-service.png" alt="Microsoft Foundry Agent Service architecture overview" width="50%" />
 
 Planning reference: [Technology solutions and strategy for AI agents](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ai-agents/technology-solutions-plan-strategy)
 
@@ -21,130 +21,133 @@ For shared workshop context (ecosystem overview, global goals, and architecture)
 
 ## 🔬 Build in Azure AI Foundry
 
-These sections are repeated in each phase so teams can follow a consistent loop: set context, execute, compare outcomes, document decisions, and validate before moving on.
+Follow this sequence to select a model, configure a Foundry agent, connect it to Copilot Studio, and validate the end-to-end flow.
 
-<details open>
-<summary><strong>Phase 1 — 🔎 Model Catalog Exploration</strong></summary>
+### What you will complete
 
-#### Initial Setup
+- Select and test a model in Foundry.
+- Configure a Visual Auditor agent with structured output.
+- Connect the published Foundry agent to Copilot Studio.
+- Validate the full Copilot Studio + Foundry flow.
+
+### 🔎 Model Catalog Exploration
 
 Before you begin this phase, complete **Step-by-Step: Azure $200 Free Account (30 Days) ☁️** in the [Setup Guide](../00-Setup/setup-guide.md).
 
-1. Open **Azure AI Foundry** ( https://ai.azure.com/ ) and Sign In with your assigned sandbox **work or school account**.
+1. Open **Azure AI Foundry** (https://ai.azure.com/) and sign in with your assigned sandbox **work or school account**.
 
-2. Go to the **Model Catalog** and check the available models. Notice you have a Model Leaderboard where you can see the different models and a comparison of their capabilities and performance on different benchmarks (Quality, Safety, Cost, Throughput).
+2. Go to the **Model Catalog** and review available models.
+    Use the **Model Leaderboard** to compare capabilities and benchmark performance (Quality, Safety, Cost, Throughput).
 
-    <img src="../supportdocs/modelleaderboard.png" alt="Microsoft Foundry Agent Model Leadersboard" width="100%" />
+    <img src="../supportdocs/modelleaderboard.png" alt="Model leaderboard in Azure AI Foundry showing quality, safety, cost, and throughput metrics" width="100%" />
 
 3. Filter the catalog by:
     - **inference task**: Image Classification
     - **Collections**: Microsoft
 
 
-    <img src="../supportdocs/foundry-model-catalog.png" alt="Microsoft Foundry Deployed Model" width="100%" />
+    <img src="../supportdocs/foundry-model-catalog.png" alt="Azure AI Foundry model catalog filtered for image classification and Microsoft collection" width="100%" />
 
-    Note: We are choosing these filters because we want to find vision models that can be used in the connected agent (Vision Guard) in our architecture. You can explore other filters and find different models that suit your use case.
+    > Note: These filters help you find vision models for the connected agent (Vision Guard). You can explore other filters based on your use case.
 
 4. Select the *Phi-4-reasoning-vision-15b* model and review the details about its capabilities, benchmarks, and pricing.
 
 
-    Note: Phi-4 models are not available in Free tier. For learning purposes, you can review the model details and documentation, but you may choose another all-purpose model ( such as gpt-4o or Llama-3) for the next steps that is available in the free tier.
+    > Note: Phi-4 models are not available in the free tier. For this lab, you can review Phi-4 details, then continue with another all-purpose model such as gpt-4o or Llama-3.
 
 5. Select "Use this model" to deploy it and make it available for testing. Follow the steps until completion.
 
-6. Once the model is deployed, open the background and select the previously deployed model.
+6. Once the model is deployed, open the **Playground** and select the deployed model.
 
-    <img src="../supportdocs/foundry-model-playground.png" alt="Microsoft Foundry Playground Model" width="100%" />
+    <img src="../supportdocs/foundry-model-playground.png" alt="Model selected in Azure AI Foundry playground" width="100%" />
 
-    Note: For learning purposes, and to avoid accessibility barriers we chose gpt-4o model which is available in the free tier.
+    > Note: For learning purposes and accessibility, we use gpt-4o in this lab because it is available in the free tier.
 
-    Note: Like Microsoft Copilot Studio, MS Foundry includes the option to add tools and knowledge bases for RAG scenarios. Additionaly, it includes an option for **Persistent Memory**, which allows the model to remember information across different interactions, and **Guardrails**, which are sets of rules and constraints that can be applied to the model to ensure it behaves in a safe and predictable manner. 
-7. Test the model with a sample prompt and review the output. Upload a sample photo, to make sure it detects objects correctly.
+   Like Microsoft Copilot Studio, Microsoft Foundry includes options to add tools and knowledge bases for RAG scenarios. It also includes **Persistent Memory**, which allows the model to remember information across interactions, and **Guardrails**, which apply safety constraints to model behavior.
+
+7. Test the model with a sample prompt and review the output. Upload a sample photo to verify object detection.
+
+8. Click **Save as an agent** to create an agent that is ready to plug into Copilot Studio.
+
+### 🔧 Foundry Agent Configuration
+
+9. Update the agent instructions to fit the use case of the **Visual Auditor** connected agent in our architecture. Include:
+
+    ```
+    Obtain the image attached and perform the following operations Object Detection and Item Counting operations:
+    Object Detection: Analyze the provided image to identify specific food items. 
+    Item Counting: Perform a **meticulous** count of every individual unit visible in the frame.
+    Verification: Confirm if the visible contents align with the expected food category.
+    Strict Output: You must provide your findings in a structured format for the Orchestrator to parse. Do not include conversational filler.
+    Output Format:
+    Food Items: [List detected items]
+    Quantity: [Total count as a number]
+    "Do you confirm this is the pick-up?"
+
+    Important: Only display the information below and ask for the user for confirmation. Don't ask for anything else apart from user confirmation.
+    ```
+
+10. For this workshop, leave **Tools**, **Knowledge**, and **Memory** empty, and keep **Guardrails** at default settings.
+
+11. Use the **Chat Mode** to test the agent.
+
+12. Select **Save** and **Publish** to make the agent available for integration in Copilot Studio.
+
+    <img src="../supportdocs/foundry-agent.png" alt="Published Foundry agent ready for external connection" width="100%" />
+
+### 🔗 Integration into Copilot Studio
+
+13. Open your Copilot Studio agent notes from [Lab 01](../01-Copilot-Studio/lab-guide.md), select the **Agents** tab and **+ Add an agent**.
+
+14. Then, select **Connect to an external Agent** and select **Microsoft Foundry**.
 
 
+    <img src="../supportdocs/mcs_foundry_int.png" alt="Copilot Studio external agent connection dialog for Microsoft Foundry" width="100%" />
 
-#### Execution
 
-2. Find a Phi-4 model and review core capabilities.
-3. Find a Llama model and review core capabilities.
+15. Add the following details:
+    - Name: 
+        ```
+        Visual-Auditor-Foundry
+        ```
+    - Description: 
+        ```
+        Agent for Volunteers to use to analyze the provided image to identify specific food items.
+        Obtain the image attached and perform the following operations Object Detection and Item Counting operations:
+        Object Detection: Analyze the provided image to identify specific food items. 
+        Item Counting: Perform a **meticulous** count of every individual unit visible in the frame.
+        Strict Output: You must provide your findings in a structured format for the Orchestrator to parse. Do not include conversational filler.
+        Output Format:
+        Food Items: [Detected Items]
+        Quantity: [Total count as a number]
+        "Do you confirm this is the pick-up?"
 
-#### Comparison
+        Important: Only display the information below and ask for the user for confirmation. Don't ask for anything else apart from user confirmation.
+        ```
+    - The ID of the agent to send a message to: 
+        ```
+        Visual-Auditor-Foundry
+        ```
 
-4. Capture a quick decision note: which model suits your use case and why.
+        Note: The agent ID is the same as the name by default, but you can find it in the URL when you open the agent in Foundry.
 
-#### Validation
+16. Select **Save**.
 
-[Insert Screenshot of Model Catalog filtered for Phi-4 and Llama here]
+17. Your connected agent should be configured and ready to use in your Copilot Studio experience.
 
-> ✅ Checkpoint: Catalog Selection Ready
-> - Two model families reviewed.
-> - One candidate model selected with rationale.
+    <img src="../supportdocs/mcs_foundry_int2.png" alt="Configured external Foundry agent in Copilot Studio" width="100%" />
 
-</details>
+### 🧪 Test the end-to-end flow
 
-<details open>
-<summary><strong>Phase 2 — 🧪 Playground Prompt Experimentation</strong></summary>
-
-#### Initial Setup
-
-5. Open **Playground**.
-
-#### Execution
-
-6. Write a short system prompt with role, constraints, and expected tone.
-7. Test the same user prompt against two different models.
-
-#### Comparison
-
-8. Evaluate output quality on relevance, safety, and actionability.
-9. Refine your system prompt and run one final test.
-
-#### Validation
-
-[Insert Screenshot of Playground with system prompt and output comparison here]
-
-> ✅ Checkpoint: Prompt Iteration Ready
-> - At least one prompt revision improved outcomes.
-> - Comparison notes captured for both models.
-
-</details>
-
-<details open>
-<summary><strong>Phase 3 — 🔗 Connect Back to Copilot Studio</strong></summary>
-
-#### Initial Setup
-
-10. Open your Copilot Studio architecture notes from Lab 01.
-
-#### Execution
-
-11. Document your selected model and final system prompt pattern.
-12. Map where this model/prompt logic fits your Copilot Studio agent experience.
-
-#### Integration Notes
-
-13. Identify one high-value topic where richer model behavior improves outcomes.
-14. Note integration constraints (latency, cost, approvals).
-
-#### Validation
-
-[Insert Screenshot of architecture notes linking Foundry to Copilot Studio here]
-
-> ✅ Checkpoint: Integration Plan Ready
-> - Foundry decision translated into Copilot Studio impact.
-> - Constraints documented for implementation planning.
-
-</details>
+Now test the full flow with the connected agent.
+Go to the Test section in [Lab 01](../01-Copilot-Studio/lab-guide.md) and validate how Copilot Studio and Foundry work together in the orchestration.
 
 ### ✅ Validation Checklist
 
-- Two model families were reviewed.
-- At least one prompt iteration improved output quality.
-- Team produced a clear integration note for Copilot Studio.
-
-### 📓 Notebooks Folder
-
-Use the notebooks folder to capture quick experiments, comparisons, and reusable prompt tests.
+- One candidate model was selected with a short rationale.
+- Agent instructions were updated with structured output and confirmation-only behavior.
+- Foundry agent was published and connected to Copilot Studio.
+- End-to-end flow was tested from Copilot Studio using the connected Foundry agent.
 
 ### 🆘 Stuck? Check the Solution
 

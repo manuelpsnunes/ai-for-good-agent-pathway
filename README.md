@@ -1,83 +1,95 @@
-## AI for Good Hackathon: Low-Code to Pro-Code Agents
+# AI for Good Hackathon: Building AI Agents for Social Impact
 
-Build meaningful, agentic solutions in 2 hours. This workshop helps hackathon teams move from **Copilot Studio** foundations to **Azure AI Foundry** experimentation and finally into **pro-code multi-agent orchestration** patterns.
 
-## 🧭 FoodLink AI Ecosystem Overview
+This repository is a guided workshop for building an AI-for-Good scenario with AI Agents taking the example of [**FoodLink**](https://foodlink-london.lovable.app/), an organization where donors, volunteers, and coordinators collaborate through agentic workflows.
 
-This workshop uses the FoodLink scenario to demonstrate end-to-end agentic orchestration for social impact.
+You will implement:
+- Low-code agent orchestration in Copilot Studio.
+- Model and prompt experimentation in Microsoft Foundry.
+- A path toward pro-code multi-agent patterns.
 
-- **FoodLink Agentic AI (Copilot Studio)**: Parent orchestrator that delegates execution to specialist agents.
-- **Donor Assistant (Copilot Studio)**: Handles donation intake and donor context.
-- **Volunteer Dispatcher (Copilot Studio)**: Matches donations to hub capacity and available volunteers.
-- **Meal Organizer (Copilot Studio)**: Transforms available food into balanced distribution plans.
-- **Vision Guard (Azure AI Foundry)**: Adds model-driven intelligence for connected scenarios.
+## ❓ Why
 
-## 🧪 Workshop Goals
+- **Faster prototyping**: go from concept to working demo in one session.
+- **Responsible design**: include grounded answers, deterministic tools, and human approval paths.
+- **Production-minded learning**: leave with reusable structure, not just a one-off demo.
 
-- Learn how to set up multiple agents in **Microsoft Copilot Studio** and orchestrate them as one end-to-end process.
-- Learn how to design robust **Instructions** for predictable handoffs between parent and child agents.
-- Learn how to use **Tools** for deterministic operations (lookups, matching, routing, approvals).
-- Learn how to use **Knowledge** with grounded responses.
-- Learn how to implement **human-in-the-loop** paths for high-impact decisions.
-- Learn how to validate complex multi-agent flows quickly, including success and fallback paths.
+## 🧩 Use Case: FoodLink
 
-## 🏗️ Agent Architecture
+FoodLink is a (fictitious although illustrative) social impact organization where donors (restaurants, grocery stores, farms) provide surplus food to beneficiaries (shelters, food banks), who then prepare meals for distribution.
 
-We build an agentic system composed of:
+<img src="./supportdocs/foodlink.png" alt="FoodLink scenario overview" width="75%" />
 
-- 1 orchestrator (FoodLink Agentic AI)
-- 3 child agents (Donor Assistant, Volunteer Dispatcher, Meal Organizer)
-- 1 connected agent (Vision Guard)
+Our goal is to **use AI Agents to optimize the coordination between donors, volunteers, and beneficiaries**, reducing food waste and increasing efficiency in meal preparation.
 
-The orchestration pattern is **handoff orchestration**, where execution is passed to a specialist agent when specific conditions are met.
+Don't know what is an AI Agent? Check out the section below on [Resources](#useful-resources) to get up to speed.
 
-For more patterns, see [AI agent orchestration patterns](https://learn.microsoft.com/en-us/azure/architecture/ai-ml/guide/ai-agent-design-patterns).
+## 🏗️ Architecture
 
-<img src="./supportdocs/agenticarchitecture.png" alt="Agent architecture" width="75%" />
+The architecture in this workshop includes five agents (listed below), each with its own tasks and instructions, operating in an **handoff orchestration** pattern where execution passes to specialist agents when conditions are met.
 
-## 2-Hour Roadmap
+- 1 orchestrator: **FoodLink Agentic AI**.
+- 3 child agents: **Donor Assistant**, **Volunteer Dispatcher**, **Meal Organizer**.
+- 1 connected Microsoft Foundry agent: **Visual Audit**.
 
-| Segment | Focus | Time | Workshop Share |
-|---|---|---:|---:|
-| 01-Copilot-Studio | First agent, **Generative Answers**, **Topic** logic, **Human Handoff** | 60 min | **50%** |
-| 02-Azure-AI-Foundry | Model Catalog (Phi-4, Llama), Playground system prompts, Copilot Studio connection | 42 min | **35%** |
-| 03-Agent-Framework | Multi-agent orchestration overview and GroupChat code glimpse | 18 min | **15%** |
-| Total | Time-to-Impact sprint | 120 min | **100%** |
+<img src="./supportdocs/agenticarchitecture.png" alt="FoodLink agent architecture" width="75%" />
 
-## 350-Character Description
+Reference: [AI agent orchestration patterns](https://learn.microsoft.com/en-us/azure/architecture/ai-ml/guide/ai-agent-design-patterns)
 
-A fast-paced, 2-hour AI for Good hackathon workshop that guides builders from low-code Copilot Studio agents to pro-code Azure AI Foundry and multi-agent orchestration. Teams prototype real social-impact solutions, learn practical patterns, and leave with reusable assets to keep shipping responsible, mission-driven AI beyond the event at scale now.
+## ⏱️ 2-Hour Roadmap
 
-## Why Agents for Social Good?
+| Segment | Focus | Time |
+|---|---|---:|
+| Kick-Off | What are AI Agents, and why they matter, use case, architecture | 10 min |
+| 00-Setup | Access, licensing, environment readiness | 15 min |
+| 01-Copilot-Studio | Orchestrator + child agents, tools, instructions, HITL | 50 min |
+| 02-Azure-AI-Foundry | Model catalog, prompt testing, Foundry connection | 35 min |
+| Q&A and Wrap-Up | Demo reflections, blockers, next steps | 10 min |
 
-### Faster Response to Real Needs
-Agents help teams translate community challenges into working solutions quickly, so ideas become usable prototypes during the event instead of staying on slides.
+## 🧭 Learning Path
 
-### Better Human + AI Collaboration
-With **handoff**, **guardrails**, and **grounded responses**, teams design systems where people stay in control while AI accelerates impact.
+Recommended order:
 
-### Reusable Architecture Beyond the Hackathon
-Participants leave with a progression path from low-code to pro-code, making it easier to productionize responsible solutions after the workshop.
+1. [00-Setup](00-Setup/setup-guide.md): Pre-requisites to access Microsoft Copilot Studio and Foundry.
+2. [01-Copilot-Studio](01-Copilot-Studio/lab-guide.md): Building Agents with Copilot Studio.
+3. [02-Azure-AI-Foundry](02-Azure-AI-Foundry/lab-guide.md): Extending with Microsoft Foundry for specialized capabilities.
 
-## Repository Map
+## 🔗 Useful Resources
 
-- `00-Setup/`: Tenant, licensing, and readiness checklist.
-- `01-Copilot-Studio/`: Core low-code build lab (50% of workshop).
-- `02-Azure-AI-Foundry/`: Model and prompt experimentation lab (35% of workshop).
-- `03-Agent-Framework/`: Pro-code architecture glimpse with Python sample (15% of workshop).
-- `use-cases/`: AI for Good idea bank to kick-start team concepts.
+### Microsoft Copilot Studio
 
-## Suggested Lab Order
+- Copilot Studio portal: https://copilotstudio.microsoft.com/
+- Copilot Studio documentation: https://learn.microsoft.com/en-us/microsoft-copilot-studio/
+- Copilot Studio learning path: https://learn.microsoft.com/training/paths/work-power-virtual-agents/
 
-1. [00-Setup/setup-guide.md](00-Setup/setup-guide.md)
-2. [01-Copilot-Studio/lab-guide.md](01-Copilot-Studio/lab-guide.md)
-3. [02-Azure-AI-Foundry/lab-guide.md](02-Azure-AI-Foundry/lab-guide.md)
-4. [03-Agent-Framework/overview.md](03-Agent-Framework/overview.md)
+### Microsoft Foundry
 
-## Workshop Outcome
+- Microsoft Foundry portal: https://ai.azure.com/
+- Azure AI Foundry documentation: https://learn.microsoft.com/azure/ai-foundry/
+- Microsoft Foundry Agent Service Starter Kit: https://github.com/NicoGrassetto/Foundry-Agent-Service-Starter-Kit
 
-By the end, each team has:
 
-- A functioning first agent.
-- A tested model/prompt strategy in Foundry.
-- A clear next step toward multi-agent pro-code architecture.
+### Going Pro
+- Copilot Studio Empowered by Azure: https://github.com/Azure/Copilot-Studio-and-Azure
+- Cloud Adoption Framework for AI agents: https://learn.microsoft.com/azure/cloud-adoption-framework/ai-agents/
+- Multi-Agent Custom Automation Engine Solution Accelerator: https://github.com/microsoft/Multi-Agent-Custom-Automation-Engine-Solution-Accelerator
+- AI agent design patterns: https://learn.microsoft.com/azure/architecture/ai-ml/guide/ai-agent-design-patterns
+
+## ✅ Workshop Outcomes
+
+By the end of the workshop, each team knows how to:
+- Understand the core components of an AI agent architecture and the tools to build it.
+- Build a functioning Copilot Studio orchestrator with child-agent handoffs.
+- Test a model and prompt strategy in Microsoft Foundry.
+- Develop a practical path for multi-agent implementation.
+
+## 🆘 Feeling Stuck?
+- Check the [presentation]() with supporting guidance.
+- Download the [agent solution]() with the samples used for this workshop.
+
+## 📌 Project Metadata
+
+- [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md)
+- [SECURITY.md](SECURITY.md)
+- [SUPPORT.md](SUPPORT.md)
+- [LICENSE](LICENSE)
