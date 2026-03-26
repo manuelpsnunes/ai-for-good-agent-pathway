@@ -340,7 +340,7 @@ Now add the following tools before writing instructions, so the instructions can
             ```
 
 24. Add Tool: `Microsoft Dataverse` -> `List rows from selected environment`.
-25. Configure it as follows:
+25. Configure it as follows :
     - Name:
         ```
         SearchAvailableVolunteers
