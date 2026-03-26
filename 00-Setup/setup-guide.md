@@ -1,6 +1,8 @@
 ## 00 - Setup Guide
 
-Get everyone ready fast so the hackathon can focus on building impact, not troubleshooting access.
+Use this guide to get all participants ready before the workshop starts.
+The goal is to spend workshop time building, not troubleshooting access.
+
 
 ### Participant Account Requirement (Read First) 🔐
 
@@ -23,13 +25,12 @@ Each participant must receive a **work or school account** in the sandbox tenant
 3. Complete the prompted verification and profile steps.
 4. After sign-up completes, open **Copilot Studio** and confirm the trial is active.
 
-<img src="image.png" alt="Copilot Studio trial sign-up screen" width="75%" />
+<img src="image.png" alt="Copilot Studio trial sign-up screen" width="100%" />
 
-Important notes ⚠️:
-
-- The trial allows creating agents and testing in the test chat panel.
-- Publishing is not available on the basic trial flow.
-- If prompted that sign-up cannot be completed, your tenant may have self-service sign-up disabled. Contact the tenant admin to enable it.
+> Important notes:
+> - The trial allows creating agents and testing in the test chat panel.
+> - Publishing is not available on the basic trial flow.
+> - If prompted that sign-up cannot be completed, your tenant may have self-service sign-up disabled. Contact the tenant admin to enable it.
 
 ### Step-by-Step: Azure $200 Free Account (30 Days) ☁️
 
@@ -40,15 +41,14 @@ Reference: https://azure.microsoft.com/en-us/pricing/purchase-options/azure-acco
 3. Complete identity verification steps (phone and payment method may be requested by Azure for validation).
 4. Confirm your free account is provisioned with **$200 credit for 30 days**.
 5. Sign in to the Azure portal and verify you can access subscription details.
-6. Open Azure AI Foundry ( https://ai.azure.com/ ) and confirm you can create or join a project.
+6. Open Azure AI Foundry (https://ai.azure.com/) and confirm you can create or join a project.
 
-<img src="image-1.png" alt="Azure free account sign-up screen" width="75%" />
+    <img src="../supportdocs/foundry-home.png" alt="Microsoft Foundry Integration" width="100%" />
 
-Important notes ⚠️:
-
-- Azure Free is available to new Azure customers.
-- Spending protection is available during the free account period.
-- If your organization policy blocks sign-up, ask the tenant/subscription admin to pre-provision access.
+> Important notes:
+> - Azure Free is available to new Azure customers.
+> - Spending protection is available during the free account period.
+> - If your organization policy blocks sign-up, ask the tenant/subscription admin to pre-provision access.
 
 ### Azure Requirements 🧩
 
@@ -56,9 +56,10 @@ Important notes ⚠️:
 - Permission to create or use an Azure AI Foundry project.
 - Access to model playground features and model catalog browsing.
 
+
 ### Suggested Licensing Baseline 📋
 
 - Copilot Studio license (trial or paid) for each builder.
-- Azure subscription with sufficient quota for model testing (**East US 2** and **Sweden Central** are the go-to options for best availability).
+- Azure subscription with sufficient quota for model testing (**East US 2** and **Sweden Central** are recommended for availability).
 - Optional: Power Platform admin access for environment troubleshooting.
 
