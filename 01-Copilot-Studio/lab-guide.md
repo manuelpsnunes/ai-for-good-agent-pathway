@@ -35,7 +35,7 @@ These sections appear in all agents to keep the build process consistent:
 - `Configuration Overview`: final validation checkpoint before testing.
 
 
-<details open>
+<details>
 <summary><strong>Agent 1 — 🧠 Orchestrator: FoodLink Agentic AI</strong></summary>
 
 
@@ -123,7 +123,7 @@ The agent should be able to answer this question using information from the Shar
 
 </details>
 
-<details open>
+<details>
 <summary><strong>Agent 2 — 🤝 Child Agent: Donor Assistant</strong></summary>
 
 
@@ -254,7 +254,7 @@ Test the agent using the `Test Pane` and simulate a conversation with a donor.
 
 </details>
 
-<details open>
+<details>
 <summary><strong>Agent 3 — 🚚 Child Agent: Volunteer Dispatcher</strong></summary>
 
 
@@ -429,8 +429,8 @@ Test the agent using the `Test Pane` with a handoff-style prompt that includes d
 
 </details>
 
-<details open>
-<summary><strong>Agent 4 — 🚚 Child Agent: Meal Planner</strong></summary>
+<details>
+<summary><strong>Agent 4 — 📅 Child Agent: Meal Planner</strong></summary>
 
 </details>
 
