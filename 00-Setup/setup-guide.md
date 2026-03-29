@@ -1,7 +1,9 @@
-## 00 - Setup Guide
+# 00 - Setup Guide
 
 Use this guide to get all participants ready before the workshop starts.
 The goal is to spend workshop time building, not troubleshooting access.
+
+For shared workshop context (ecosystem overview, goals, and architecture), see [README.md](../README.md).
 
 
 ### Participant Account Requirement (Read First) 🔐
@@ -25,7 +27,7 @@ Each participant must receive a **work or school account** in the sandbox tenant
 3. Complete the prompted verification and profile steps.
 4. After sign-up completes, open **Copilot Studio** and confirm the trial is active.
 
-<img src="image.png" alt="Copilot Studio trial sign-up screen" width="100%" />
+<img src="../supportdocs/copilot-studio-trial.png" alt="Copilot Studio trial sign-up screen" width="100%" />
 
 > Important notes:
 > - The trial allows creating agents and testing in the test chat panel.
@@ -63,3 +65,19 @@ Reference: https://azure.microsoft.com/en-us/pricing/purchase-options/azure-acco
 - Azure subscription with sufficient quota for model testing (**East US 2** and **Sweden Central** are recommended for availability).
 - Optional: Power Platform admin access for environment troubleshooting.
 
+### Dataverse as a Database for Agents 🗄️
+
+For this workshop, we use a pre-provisioned **Dataverse** as the backend database for our agents. See [database.md](database.md) for the full schema, table descriptions, and ER diagram.
+
+### Ready? Final Check ✅
+
+Before moving on, confirm you can do all of the following:
+
+- [ ] Signed into **Copilot Studio** and can see the home screen.
+- [ ] Signed into the **Azure portal** with an active subscription.
+- [ ] Can open **Azure AI Foundry** (https://ai.azure.com/) and browse the model catalog.
+- [ ] Reviewed the [database schema](database.md) and understand the four core tables.
+
+---
+
+**Next step →** [01-Copilot-Studio: Building Agents](../01-Copilot-Studio/lab-guide.md)
