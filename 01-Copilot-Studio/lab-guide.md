@@ -1,4 +1,4 @@
-## 01 - Microsoft Copilot Studio | Lab Guide
+# 01 - Microsoft Copilot Studio | Lab Guide
 
 This lab focuses on the Copilot Studio implementation of FoodLink orchestration and child-agent execution.
 
@@ -99,7 +99,7 @@ Since this is the orchestrator agent, we won't add any tools to it. All tools wi
 
 The agent is configured and is now able to return information grounded in the provided knowledge sources, but not yet able to perform tasks - reserved for the child and connected agents that we'll build next.
 
-<img src="../supportdocs/orchestrator.png" alt="Microsoft Foundry Integration" width="100%" />
+<img src="../supportdocs/orchestrator.png" alt="Orchestrator agent configuration overview in Copilot Studio" width="100%" />
 
 > Note: The tools on this image are added automatically once they are added to the child agents. You shouldn't be able to see those before configuring the child agents.
 
@@ -412,7 +412,7 @@ Now add the following tools before writing instructions, so the instructions can
 
 The Volunteer Dispatcher agent is now configured to select the most suitable Hub by current load, identify a matching available volunteer at that Hub, request human confirmation, and return the final dispatch plan in a strict response format.
 
-<img src="../supportdocs/volunteerDispatcher.png" alt="Microsoft Foundry Integration" width="100%" />
+<img src="../supportdocs/volunteerDispatcher.png" alt="Volunteer Dispatcher agent configuration overview in Copilot Studio" width="100%" />
 
 Test the agent using the `Test Pane` with a handoff-style prompt that includes donor name and quantity.
 
@@ -431,15 +431,28 @@ Test the agent using the `Test Pane` with a handoff-style prompt that includes d
 
 <details>
 <summary><strong>Agent 4 — 📅 Child Agent: Meal Planner</strong></summary>
-
+(coming soon)
 </details>
 
 
-### Go Pro: 
+### Publish to a channel
 
+Once all agents are configured and tested, publish the Orchestrator agent to a channel to enable end-users to interact with it. This will allow donors, volunteers, and beneficiaries to engage with the FoodLink system through a user-friendly interface.
+
+
+<img src="../supportdocs/channels.png" alt="Copilot Studio publish to channels options" width="100%" />
+
+For this workshop (and since we're using the default Entra ID authentication ) we can choose **Teams channel** which provides a familiar and easy to set-up interface for end-users to interact with the agents.
+
+Simply click **Add a channel** on the **Microsoft Teams** button, and decide who you want to show your agent to:
+- Show to my teammates and shared users (Appears in Built with Power Platform)
+- Show to everyone in my org (Appears in Built by your org after admin approval)
 
 ### 🆘 Stuck? Check the Solution
 
-Open [solution/README.md](../workshop/solution/README.md) to compare your setup with a reference baseline.
+Refer to the [presentation deck](../supportdocs/AI%20for%20Good%20-%20hackathon%20.pdf) to compare your setup with a reference baseline.
 
+---
+
+**← Previous:** [00-Setup](../00-Setup/setup-guide.md) | **Next step →** [02-Azure-AI-Foundry](../02-Azure-AI-Foundry/lab-guide.md) | **↑ Home:** [README.md](../README.md)
 

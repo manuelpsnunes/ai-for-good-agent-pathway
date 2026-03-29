@@ -1,4 +1,4 @@
-## 02 - Azure AI Foundry | Lab Guide
+# 02 - Azure AI Foundry | Lab Guide
 
 This lab moves from low-code setup into model and prompt engineering decisions that improve output quality.
 
@@ -151,4 +151,8 @@ Go to the Test section in [Lab 01](../01-Copilot-Studio/lab-guide.md) and valida
 
 ### 🆘 Stuck? Check the Solution
 
-Open [solution/README.md](../workshop/solution/README.md) to compare your model selection and prompt structure with a sample baseline.
+Refer to the [presentation deck](../supportdocs/AI%20for%20Good%20-%20hackathon%20.pdf) to compare your model selection and prompt structure with a sample baseline.
+
+---
+
+**← Previous:** [01-Copilot-Studio](../01-Copilot-Studio/lab-guide.md) | **Next step →** [03-Production-Readiness](../03-Production-Readiness/lab-guide.md) | **↑ Home:** [README.md](../README.md)
