@@ -55,3 +55,4 @@ Thumbs.db
 # Archives
 *.zip
 !**/samples/**/*.zip
+!supportdocs/FoodLinksolution_1_0_0_3.zip
