@@ -58,7 +58,7 @@ By the end of the workshop, each team knows how to:
 
 ## 🆘 Feeling Stuck?
 - Check the [presentation](supportdocs/AI%20for%20Good%20-%20hackathon%20.pdf) with supporting guidance.
-- Download the agent solution (coming soon) with the samples used for this workshop.
+- Download the [agent solution](supportdocs/FoodLinksolution_1_0_0_3.zip) with the samples used for this workshop.
 
 ## 🔗 Useful Resources
 
